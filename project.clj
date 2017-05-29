@@ -1,4 +1,4 @@
-(defproject invetica/media-types "0.1.0-SNAPSHOT"
+(defproject invetica/media-types "0.1.0"
   :description "Media types (https://tools.ietf.org/html/rfc2046)."
   :url "https://github.com/invetica/media-types"
   :license {:name "The MIT License"
