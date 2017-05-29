@@ -1,0 +1,88 @@
+*Media Types* knows how to parse, and generate media type strings that you might
+use in HTTP content negotiation.
+
+#+BEGIN_HTML
+<a href="https://circleci.com/gh/invetica/media-types">
+  <img src="https://circleci.com/gh/invetica/media-types.svg"></img>
+</a>
+
+<a href="https://clojars.org/invetica/media-types">
+  <img src="https://img.shields.io/clojars/v/invetica/media-types.svg"></img>
+</a>
+#+END_HTML
+
+* Contents                                                              :TOC:
+ - [[#why-this-library][Why this library?]]
+ - [[#usage][Usage]]
+ - [[#tests][Tests]]
+ - [[#further-reading][Further Reading]]
+ - [[#license][License]]
+
+* Why this library?
+Other solutions exist but are either a bit too featureful. This library aims to
+be small, lightweight, easy to use, and fast.
+
+For a more complete solution that includes detection of file types, can suggest
+extensions etc. you might want to check out [[https://tika.apache.org/][Apache Tika]].
+
+* Usage
+You can parse a string media type into a map of ~:toptype~, ~:subtype~, and
+~:params~, where the media type string is of the form:
+
+#+begin_example
+<toptype>/<subtype>[; params]+
+#+end_example
+
+Given a media type of "application/json; charset=utf-8", we can parse this into
+a map like so:
+
+#+begin_src clojure
+  (require '[invetica.media-types :as media])
+  (media/parse "application/json; charset=utf-8")
+  ;; => {:params {"charset" "utf-8"}
+  ;;     :subtype "javascript"
+  ;;     :toptype "application"}
+#+end_src
+
+* Tests
+The test suite makes sure we can parse every registered media type, which
+requires a bit of XML pulled from IANA. This data is vendored into the
+repository to save IANA's bandwidth, and to ensure we don't need the internet to
+run our tests.
+
+You can pull the latest list of registered media types using curl like so:
+
+#+begin_src bash
+  mkdir -p dev-resources/invetica
+  curl -o dev-resources/invetica/media-types.xml \
+    https://www.iana.org/assignments/media-types/media-types.xml
+#+end_src
+
+#+RESULTS:
+
+* Further Reading
+- https://tools.ietf.org/html/rfc2046
+- https://www.iana.org/assignments/media-types/media-types.xhtml
+- https://en.wikipedia.org/wiki/Media_type
+
+* License
+The MIT License (MIT)
+
+Copyright © 2017 Invetica Ltd
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
